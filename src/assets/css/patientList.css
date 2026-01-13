@@ -1,0 +1,73 @@
+*{
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+
+#box{
+    margin: 100px 150px;
+    padding-bottom: 150px;
+}
+
+.liO:hover{
+    visibility: visible;
+    color: black;
+}
+
+#mini-box{
+    margin: 0 auto;
+}
+
+table{
+    margin-top: 50px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+tr{
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+#line{
+    justify-content: space-between;
+}
+
+th{
+   padding: 5px 10px;
+}
+
+.tr-pacientes:hover{
+    background-color: #cbcbcb;
+    transition: 0.25s;
+}
+
+td{
+    padding-left: 10px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.btn-add{
+    right: 0;
+    position: absolute;
+    display: flex;
+    margin: 150px;
+    border-radius: 5px;
+    background-color: #0208ba;
+    border: 1px solid transparent;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    color: white;
+    height: 30px;
+    padding: 5px 15px 0 15px;
+    font-size: 15px;
+    transition: 0.25s;
+    text-decoration: none;
+}
+
+.btn-add:hover{
+    background-color: #213547;
+}
