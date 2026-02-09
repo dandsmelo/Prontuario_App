@@ -1,5 +1,6 @@
 export interface IPatient {
     _id: string;
+    doctorId: string;
     caseType: 'Índice' | 'Familiar',
     name: string,
     birthDate: string,

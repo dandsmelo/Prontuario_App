@@ -3,7 +3,7 @@ import '../../assets/css/patientList.css'
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPatients } from "../../api/patient.requests";
+import { getPatientsByDoctorId } from "../../api/patient.requests";
 
 interface PatientTable {
     _id: string,
@@ -18,7 +18,7 @@ const PatientList: React.FC = () => {
   
     useEffect(() => {
       async function fetchPatientSummary() {
-        const data = await getPatients();
+        const data = await getPatientsByDoctorId();
         setPacientes(data);
       }
   

@@ -11,6 +11,11 @@ export const getPatients = async () => {
   return response.data;
 };
 
+export const getPatientsByDoctorId = async () => {
+  const response = await api.get('/patients/doctor')
+  return response.data;
+}
+
 export const getPatientById = async (id: string) => {
   const response = await api.get(`/patients/${id}`);
   return response.data;
