@@ -35,17 +35,17 @@ const FichaPacientes: React.FC = () => {
                     <h1 className='title'>Ficha do Paciente</h1>
 
                     <label>Nome Completo</label><br></br>
-                    <input type="text" id="name" name='nome' value={paciente.nome} className="inputs bigInputs" onChange={handleChange} required></input><br></br>
+                    <input type="text" id="name" name='name' value={paciente.name} className="inputs bigInputs" onChange={handleChange} required></input><br></br>
 
                     <span className='inputDuplos'>
                         <span>
                             <label>Data de Nascimento</label><br></br>
-                            <input type="date" id="date" className="inputs" onChange={handleChange} name='dt_nascimento' value={paciente.dt_nascimento} required></input><br></br>
+                            <input type="date" id="date" className="inputs" onChange={handleChange} name='birthDate' value={paciente.birthDate} required></input><br></br>
                         </span>
 
                         <span>
                             <label>Sexo</label><br></br>
-                            <select id="sex-select" className='inputs'onChange={handleChange} name='sexo' defaultValue="Feminino" value={paciente.sexo} required>
+                            <select id="sex-select" className='inputs'onChange={handleChange} name='sex' defaultValue="Feminino" value={paciente.sex} required>
                                 <option value="Feminino">Feminino</option>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Outro">Outro</option>
@@ -56,12 +56,12 @@ const FichaPacientes: React.FC = () => {
                     <span className='inputDuplos'>
                         <span>
                             <label>Telefone</label><br></br>
-                            <input type="tel" pattern="[0-9]{10}" id="phoneNum" className="inputs" onChange={handleChange} name='telefone' value={paciente.telefone} required></input>
+                            <input type="tel" pattern="[0-9]{10}" id="phoneNum" className="inputs" onChange={handleChange} name='phone' value={paciente.phone} required></input>
                         </span>
 
                         <span>
                             <label>Telefone Reserva</label><br></br>
-                            <input type="tel" pattern="[0-9]{10}" id="telephone" className="inputs" onChange={handleChange} name='telefone_reserva' value={paciente.telefone_reserva}></input><br></br>
+                            <input type="tel" pattern="[0-9]{10}" id="telephone" className="inputs" onChange={handleChange} name='phoneReservation' value={paciente.phoneReservation}></input><br></br>
                         </span>
                     </span>
 
@@ -78,24 +78,24 @@ const FichaPacientes: React.FC = () => {
                     </span>
 
                     <label>Endereço</label><br></br>
-                    <input type="text" id="log" className="inputs bigInputs" onChange={handleChange} name='endereco' value={paciente.endereco} required></input><br></br>
+                    <input type="text" id="log" className="inputs bigInputs" onChange={handleChange} name='address' value={paciente.address} required></input><br></br>
 
                     <span className='inputDuplos'>
                         <span>
                             <label>Número</label><br></br>
-                            <input type="number" id="numero" className="inputs" onChange={handleChange} name='numero' value={paciente.numero} required></input><br></br>
+                            <input type="number" id="numero" className="inputs" onChange={handleChange} name='number' value={paciente.number} required></input><br></br>
                         </span>
 
                         <span>
                             <label>Complemento</label><br></br>
-                            <input type="text" id="complemento" className="inputs" onChange={handleChange} name='complemento' value={paciente.complemento}></input><br></br>
+                            <input type="text" id="complemento" className="inputs" onChange={handleChange} name='complement' value={paciente.complement}></input><br></br>
                         </span>
                     </span>
 
                     <span className='inputDuplos'>
                         <span>
                             <label>Bairro</label><br></br>
-                            <input type="text" id="bairro" className="inputs" onChange={handleChange} name='bairro' value={paciente.bairro} required></input><br></br>
+                            <input type="text" id="bairro" className="inputs" onChange={handleChange} name='neighborhood' value={paciente.neighborhood} required></input><br></br>
                         </span>
 
                         <span>
@@ -105,10 +105,10 @@ const FichaPacientes: React.FC = () => {
                     </span>
 
                     <label>Diágnostico</label><br></br>
-                    <input type="text" className="inputs bigInputs" onChange={handleChange} name='diagnostico' value={paciente.diagnostico} required></input><br></br>
+                    <input type="text" className="inputs bigInputs" onChange={handleChange} name='diagnosis' value={paciente.diagnosis} required></input><br></br>
 
                     <label>Resumo</label><br></br>
-                    <input type="text" id="resumo" className="inputs bigInputs" onChange={handleChange} name='resumo' value={paciente.resumo}></input>
+                    <input type="text" id="resumo" className="inputs bigInputs" onChange={handleChange} name='summary' value={paciente.summary}></input>
 
                     <br></br>
 

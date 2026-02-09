@@ -1,7 +1,7 @@
 export interface IDoctor {
   _id?: string;
-  nome: string;
+  name: string;
   user: string;
   email: string;
-  senha: string;
+  password: string;
 }

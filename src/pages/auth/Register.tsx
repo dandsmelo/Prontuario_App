@@ -35,7 +35,7 @@ const Register: React.FC = () => {
 
                         <form className='register-form' onSubmit={cadastrar}>
                             <label>Nome Completo</label><br></br>
-                            <input type='text' name='nome' value={doutor.nome} onChange={handleChange} required></input><br></br><br></br>
+                            <input type='text' name='name' value={doutor.name} onChange={handleChange} required></input><br></br><br></br>
 
                             <label>Nome de Usuário</label><br></br>
                             <input type='text'name='user' value={doutor.user} onChange={handleChange} required></input><br></br><br></br>
@@ -44,7 +44,7 @@ const Register: React.FC = () => {
                             <input type='email' name='email' value={doutor.email} onChange={handleChange} required></input><br></br><br></br>
 
                             <label>Senha</label><br></br>
-                            <input type='password' name='senha' value={doutor.senha} onChange={handleChange} required></input><br></br><br></br>
+                            <input type='password' name='password' value={doutor.password} onChange={handleChange} required></input><br></br><br></br>
 
                             <button className='btn-register' type='submit'>Cadastre-se</button><br></br>
 
