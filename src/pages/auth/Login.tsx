@@ -11,12 +11,12 @@ const Login: React.FC = () =>  {
   const { login } = useAuth();
 
   const [user, setUser] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await loginDoctor( user, senha );
+      const response = await loginDoctor( user, password );
       if (response.status === 200) {
         login(response.data.token);
         navigate('/patientList');
@@ -43,7 +43,7 @@ const Login: React.FC = () =>  {
             <input type='text' value={user} onChange={(e) => setUser(e.target.value)} required></input><br></br><br></br>
 
             <label>Senha</label><br></br>
-            <input type='password' value={senha} onChange={(e) => setSenha(e.target.value)} required></input><br></br><br></br>
+            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} required></input><br></br><br></br>
 
             <button className='btn-login' type='submit'>Logar</button><br></br>
 
