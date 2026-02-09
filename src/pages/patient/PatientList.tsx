@@ -7,8 +7,8 @@ import { getPatients } from "../../api/patient.requests";
 
 interface PatientTable {
     _id: string,
-    nome: string,
-    diagnostico: string,
+    name: string,
+    diagnosis: string,
     rg: string,
 }
 
@@ -48,8 +48,8 @@ const PatientList: React.FC = () => {
                         <tbody>
                             {pacientes.map((paciente) => (
                                 <tr key={paciente._id} className="tr-pacientes" onClick={() => handleRowClick(paciente._id)}>
-                                    <td>{paciente.nome}</td>
-                                    <td>{paciente.diagnostico}</td>
+                                    <td>{paciente.name}</td>
+                                    <td>{paciente.diagnosis}</td>
                                     <td>{paciente.rg}</td>
                                 </tr>
                         ))}

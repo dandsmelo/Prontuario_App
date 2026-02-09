@@ -39,14 +39,14 @@ const Patient: React.FC = () => {
             
                 <div id="grid-item1">
 
-                    <h3>{paciente.nome}</h3>
+                    <h3>{paciente.name}</h3>
                     <span id="diagnostico">Caso Índice</span>
 
                     <h3>Diagnóstico</h3>
-                    <span>{paciente.diagnostico}</span><br></br>
+                    <span>{paciente.diagnosis}</span><br></br>
 
                     <h3>Resumo</h3>
-                    <p id="p">{paciente.resumo}</p><br></br>
+                    <p id="p">{paciente.summary}</p><br></br>
 
                     <h3>Familiares</h3>
                     <button className="buttons">Adicionar familiar</button>
@@ -69,10 +69,10 @@ const Patient: React.FC = () => {
 
                     <div id="grid-item2">
                         <h3>Data de Nascimento</h3>
-                        <span>{paciente.dt_nascimento}</span>
+                        <span>{paciente.birthDate}</span>
 
                         <h3>Sexo</h3>
-                        <span>{paciente.sexo}</span>
+                        <span>{paciente.sex}</span>
 
                         <h3>CPF</h3>
                         <span>{paciente.cpf}</span>
@@ -81,22 +81,22 @@ const Patient: React.FC = () => {
                         <span>{paciente.rg}</span>
 
                         <h3>Telefone</h3>
-                        <span>{paciente.telefone}</span>
+                        <span>{paciente.phone}</span>
                     </div>
 
                     <div id="grid-item3">
 
                         <h3>Telefone Reserva</h3>
-                        <span>{paciente.telefone_reserva}</span>
+                        <span>{paciente.phoneReservation}</span>
 
                         <h3>Logradouro</h3>
-                        <span>{paciente.endereco}</span>
+                        <span>{paciente.address}</span>
 
                         <h3>Número</h3>
-                        <span>{paciente.numero}</span>
+                        <span>{paciente.number}</span>
 
                         <h3>Bairro</h3>
-                        <span>{paciente.bairro}</span>
+                        <span>{paciente.neighborhood}</span>
 
                         <h3>CEP</h3>
                         <span>{paciente.cep}</span>
