@@ -12,7 +12,7 @@ export const getPatients = async () => {
 };
 
 export const getPatientsByDoctorId = async () => {
-  const response = await api.get('/patients/doctor')
+  const response = await api.get('/patients/doctor');
   return response.data;
 }
 
@@ -21,12 +21,17 @@ export const getPatientById = async (id: string) => {
   return response.data;
 };
 
+export const getFamilyByIndexId = async (indexId: string) => {
+  const response = await api.get(`/patients/${indexId}/family`);
+  return response.data;
+}
+
 export const updatePatient = async (id: string, patient: IPatient) => {
-  const response = await api.put(`/patients/patients/${id}`, patient);
+  const response = await api.put(`/patients/${id}`, patient);
   return response.data;
 };
 
 export const deletePatient = async (id: string) => {
-  const response = await api.delete(`/patients/patients/${id}`);
+  const response = await api.delete(`/patients/${id}`);
   return response.data;
 };
