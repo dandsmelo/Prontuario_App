@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../../assets/css/register.css';
 import ImagemCadastro from '../../assets/images/registerImg.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,45 +6,53 @@ import { createDoctor } from '../../api/doctor.requests';
 import { IDoctor } from '../../types/Doctor';
 
 const Register: React.FC = () => {
-    
-    const [doutor, setDoutor] = useState({} as IDoctor);
+    const [doctor, setDoctor] = React.useState<IDoctor>({
+        name: '',
+        email: '',
+        password: ''
+    });
+    const [confirmPassword, setConfirmPassword] = React.useState('');
   
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      setDoutor({ ...doutor, [name]: value });
+      setDoctor({ ...doctor, [name]: value });
     };
   
     function showAlert(mensagem: string): void {
         alert(mensagem);
     };
 
-    const cadastrar = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      await createDoctor(doutor);
+
+      if (doctor.password !== confirmPassword) {
+        return alert('As senhas não coincidem');
+        }
+      await createDoctor(doctor);
       navigate('/');
       showAlert('Usuário cadastrado');
     };
 
-    return(
+    return (
         <>
             <div className='container'>
                 <div className='register-div'>
                         <h1>Crie uma conta</h1>
 
-                        <form className='register-form' onSubmit={cadastrar}>
+                        <form className='register-form' onSubmit={handleRegister}>
                             <label>Nome Completo</label><br></br>
-                            <input type='text' name='name' value={doutor.name} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Nome de Usuário</label><br></br>
-                            <input type='text'name='user' value={doutor.user} onChange={handleChange} required></input><br></br><br></br>
+                            <input type='text' name='name' value={doctor.name} onChange={handleChange} required></input><br></br><br></br>
 
                             <label>Email</label><br></br>
-                            <input type='email' name='email' value={doutor.email} onChange={handleChange} required></input><br></br><br></br>
+                            <input type='email' name='email' value={doctor.email} onChange={handleChange} required></input><br></br><br></br>
 
                             <label>Senha</label><br></br>
-                            <input type='password' name='password' value={doutor.password} onChange={handleChange} required></input><br></br><br></br>
+                            <input type='password' name='password' value={doctor.password} onChange={handleChange} required></input><br></br><br></br>
+
+                            <label>Confirmar senha</label><br></br>
+                            <input type='password' name='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required></input><br></br><br></br>
 
                             <button className='btn-register' type='submit'>Cadastre-se</button><br></br>
 

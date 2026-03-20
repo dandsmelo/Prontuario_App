@@ -10,13 +10,13 @@ const Login: React.FC = () =>  {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await loginDoctor( user, password );
+      const response = await loginDoctor( email, password );
       if (response.status === 200) {
         login(response.data.token);
         navigate('/patientList');
@@ -39,8 +39,8 @@ const Login: React.FC = () =>  {
 
           <form className='form-login' onSubmit={handleSubmit}>
 
-            <label>Usuário</label><br></br>
-            <input type='text' value={user} onChange={(e) => setUser(e.target.value)} required></input><br></br><br></br>
+            <label>Email</label><br></br>
+            <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} required></input><br></br><br></br>
 
             <label>Senha</label><br></br>
             <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} required></input><br></br><br></br>
@@ -49,7 +49,7 @@ const Login: React.FC = () =>  {
 
           </form>
 
-          <Link to='/register'>Não tenho uma conta</Link>
+          <Link to='/register'>Criar uma conta</Link>
         </div>
 
        </div>

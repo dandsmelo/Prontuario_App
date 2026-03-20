@@ -6,7 +6,7 @@ export const createDoctor = async (doutor: IDoctor) => {
   return response.data;
 }
 
-export const loginDoctor = async (user: string, password: string) => {
-  const response = await api.post(`/doctors/login`, { user, password });
+export const loginDoctor = async (email: string, password: string) => {
+  const response = await api.post(`/doctors/login`, { email, password });
   return response;
 }
