@@ -4,6 +4,8 @@ import ImagemLogin from '../../assets/images/loginImg.jpeg';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { loginDoctor } from '../../api/doctor.requests';
+import Input from './components/Input/Input';
+import PasswordInput from './components/PasswordInput/PasswordInput';
 
 const Login: React.FC = () =>  {
 
@@ -22,38 +24,38 @@ const Login: React.FC = () =>  {
         navigate('/patientList');
       }
     } catch (error) {
-      console.error
       alert('Usuário ou senha inválidos');
     }
   };
 
   return (
-    <>
-       <div className='login-container'>
-        <div>
-          <img src={ImagemLogin} className='img-login'></img> 
+    <div>
+      <div className='login-container'>
+        <div className='login-image-container'>
+          <img src={ImagemLogin} className='login-image' /> 
         </div>
-
-        <div className='div-login' id='div2'>
-          <h1>Login</h1>
-
-          <form className='form-login' onSubmit={handleSubmit}>
-
-            <label>Email</label><br></br>
-            <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} required></input><br></br><br></br>
-
-            <label>Senha</label><br></br>
-            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} required></input><br></br><br></br>
-
-            <button className='btn-login' type='submit'>Logar</button><br></br>
-
-          </form>
-
-          <Link to='/register'>Criar uma conta</Link>
+        <div className='login-form-container'>
+          <div className='login-form-wrapper'>
+            <h1>Login</h1>
+            <form className='login-form' onSubmit={handleSubmit}>
+              <Input 
+                labelText='Email' 
+                type='email' 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <PasswordInput
+                labelText='Senha'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className='login-btn' type='submit'>Logar</button>
+            </form>
+            <Link to='/register'>Criar uma conta</Link>
+          </div>
         </div>
-
-       </div>
-    </>
+      </div>
+    </div>
   )
 }
 
