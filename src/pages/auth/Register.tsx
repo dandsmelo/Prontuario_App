@@ -1,59 +1,79 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../../assets/css/register.css';
 import ImagemCadastro from '../../assets/images/registerImg.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import { createDoctor } from '../../api/doctor.requests';
 import { IDoctor } from '../../types/Doctor';
+import Input from './components/Input/Input';
+import PasswordInput from './components/PasswordInput/PasswordInput';
 
 const Register: React.FC = () => {
-    
-    const [doutor, setDoutor] = useState({} as IDoctor);
+    const [doctor, setDoctor] = React.useState<IDoctor>({
+        name: '',
+        email: '',
+        password: '',
+    });
+    const [confirmPassword, setConfirmPassword] = React.useState('');
   
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      setDoutor({ ...doutor, [name]: value });
+      setDoctor({ ...doctor, [name]: value });
     };
   
     function showAlert(mensagem: string): void {
         alert(mensagem);
     };
 
-    const cadastrar = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      await createDoctor(doutor);
+
+      if (doctor.password !== confirmPassword) {
+        return alert('As senhas não coincidem');
+        }
+      await createDoctor(doctor);
       navigate('/');
       showAlert('Usuário cadastrado');
     };
 
-    return(
+    return (
         <>
-            <div className='container'>
-                <div className='register-div'>
+            <div className='register-container'>
+                <div className='register-container-form'>
                         <h1>Crie uma conta</h1>
-
-                        <form className='register-form' onSubmit={cadastrar}>
-                            <label>Nome Completo</label><br></br>
-                            <input type='text' name='name' value={doutor.name} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Nome de Usuário</label><br></br>
-                            <input type='text'name='user' value={doutor.user} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Email</label><br></br>
-                            <input type='email' name='email' value={doutor.email} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Senha</label><br></br>
-                            <input type='password' name='password' value={doutor.password} onChange={handleChange} required></input><br></br><br></br>
-
+                        <form className='register-form' onSubmit={handleRegister}>
+                            <Input
+                              labelText='Nome'
+                              type='text'
+                              name='name'
+                              value={doctor.name}
+                              onChange={handleChange}
+                            />
+                            <Input
+                              labelText='Email'
+                              type='email'
+                              name='email'
+                              value={doctor.email}
+                              onChange={handleChange}
+                            />
+                            <PasswordInput
+                              labelText='Senha'
+                              value={doctor.password}
+                              name='password'
+                              onChange={handleChange}
+                            />
+                            <PasswordInput
+                              labelText='Confirmar senha'
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
                             <button className='btn-register' type='submit'>Cadastre-se</button><br></br>
-
                         </form>
                         <Link to='/'>Já tenho uma conta</Link>
                     </div>
-
                     <div>
-                        <img src={ImagemCadastro} className='img'></img>
+                        <img src={ImagemCadastro} className='register-image'></img>
                     </div>
             </div>
         </>

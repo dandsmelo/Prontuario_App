@@ -11,8 +11,18 @@ function App(){
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" Component={Login} />
-        <Route path='/register' Component={Register}/>
+        <Route 
+          path="/"
+          element={
+            <Login />
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <Register />
+          }
+        />
         <Route
           path="/patientForm"
           element = {
