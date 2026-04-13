@@ -4,12 +4,14 @@ import ImagemCadastro from '../../assets/images/registerImg.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import { createDoctor } from '../../api/doctor.requests';
 import { IDoctor } from '../../types/Doctor';
+import Input from './components/Input/Input';
+import PasswordInput from './components/PasswordInput/PasswordInput';
 
 const Register: React.FC = () => {
     const [doctor, setDoctor] = React.useState<IDoctor>({
         name: '',
         email: '',
-        password: ''
+        password: '',
     });
     const [confirmPassword, setConfirmPassword] = React.useState('');
   
@@ -37,31 +39,41 @@ const Register: React.FC = () => {
 
     return (
         <>
-            <div className='container'>
-                <div className='register-div'>
+            <div className='register-container'>
+                <div className='register-container-form'>
                         <h1>Crie uma conta</h1>
-
                         <form className='register-form' onSubmit={handleRegister}>
-                            <label>Nome Completo</label><br></br>
-                            <input type='text' name='name' value={doctor.name} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Email</label><br></br>
-                            <input type='email' name='email' value={doctor.email} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Senha</label><br></br>
-                            <input type='password' name='password' value={doctor.password} onChange={handleChange} required></input><br></br><br></br>
-
-                            <label>Confirmar senha</label><br></br>
-                            <input type='password' name='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required></input><br></br><br></br>
-
+                            <Input
+                              labelText='Nome'
+                              type='text'
+                              name='name'
+                              value={doctor.name}
+                              onChange={handleChange}
+                            />
+                            <Input
+                              labelText='Email'
+                              type='email'
+                              name='email'
+                              value={doctor.email}
+                              onChange={handleChange}
+                            />
+                            <PasswordInput
+                              labelText='Senha'
+                              value={doctor.password}
+                              name='password'
+                              onChange={handleChange}
+                            />
+                            <PasswordInput
+                              labelText='Confirmar senha'
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
                             <button className='btn-register' type='submit'>Cadastre-se</button><br></br>
-
                         </form>
                         <Link to='/'>Já tenho uma conta</Link>
                     </div>
-
                     <div>
-                        <img src={ImagemCadastro} className='img'></img>
+                        <img src={ImagemCadastro} className='register-image'></img>
                     </div>
             </div>
         </>
