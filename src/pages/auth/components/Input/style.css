@@ -1,0 +1,15 @@
+.auth-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.auth-input input {
+    height: 35px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border-style: none;
+    border: 1px solid #0208ba;
+    transition: 0.25s;
+    background-color: white;
+}
