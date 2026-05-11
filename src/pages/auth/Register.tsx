@@ -2,10 +2,11 @@ import React from 'react';
 import '../../assets/css/register.css';
 import ImagemCadastro from '../../assets/images/registerImg.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
-import { createDoctor } from '../../api/doctor.requests';
 import { IDoctor } from '../../types/Doctor';
 import Input from './components/Input/Input';
 import PasswordInput from './components/PasswordInput/PasswordInput';
+import { useAlert } from '../../components/Alert';
+import { useDoctor } from '../../hooks/useDoctor';
 
 const Register: React.FC = () => {
   const [doctor, setDoctor] = React.useState<IDoctor>({
@@ -14,8 +15,9 @@ const Register: React.FC = () => {
     password: '',
   });
   const [confirmPassword, setConfirmPassword] = React.useState('');
-
   const navigate = useNavigate();
+  const { createDoctor } = useDoctor();
+  const { success, error: showError } = useAlert();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -24,19 +26,17 @@ const Register: React.FC = () => {
     setDoctor({ ...doctor, [name]: value });
   };
 
-  function showAlert(mensagem: string): void {
-    alert(mensagem);
-  }
-
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (doctor.password !== confirmPassword) {
-      return alert('As senhas não coincidem');
+      return showError('As senhas não coincidem');
     }
-    await createDoctor(doctor);
-    navigate('/');
-    showAlert('Usuário cadastrado');
+    const response = await createDoctor(doctor);
+    if (response) {
+      success('Usuário cadastrado');
+      navigate('/');
+    }
   };
 
   return (

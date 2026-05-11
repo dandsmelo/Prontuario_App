@@ -2,28 +2,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../assets/css/login.css';
 import ImagemLogin from '../../assets/images/loginImg.jpeg';
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { loginDoctor } from '../../api/doctor.requests';
 import Input from './components/Input/Input';
 import PasswordInput from './components/PasswordInput/PasswordInput';
+import { useAlert } from '../../components/Alert/AlertContext';
+import { useDoctor } from '../../hooks/useDoctor';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-
+  const { loginDoctor } = useDoctor();
+  const { error: showError } = useAlert();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      const response = await loginDoctor(email, password);
-      if (response.status === 200) {
-        login(response.data.token);
-        navigate('/patientList');
-      }
-    } catch (error) {
-      alert('Usuário ou senha inválidos');
+    if (!email || !password) {
+      showError('Preencha email e senha');
+      return;
+    }
+    const response = await loginDoctor(email, password);
+    if (response) {
+      navigate('/patientList');
     }
   };
 
