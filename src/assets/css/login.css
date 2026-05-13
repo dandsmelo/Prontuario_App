@@ -43,25 +43,6 @@ a {
   color: #494949;
 }
 
-.login-btn {
-  border-radius: 5px;
-  background-color: #0208ba;
-  border: 1px solid transparent;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  color: white;
-  width: 100%;
-  height: 40px;
-  padding: 2.5px 15px;
-  font-size: 15px;
-  transition: 0.25s;
-}
-
-.login-btn:hover {
-  background-color: #213547;
-}
-
 @media (max-width: 400px) {
   .login-container {
     display: grid;

@@ -7,6 +7,7 @@ import Input from './components/Input/Input';
 import PasswordInput from './components/PasswordInput/PasswordInput';
 import { useAlert } from '../../components/Alert';
 import { useDoctor } from '../../hooks/useDoctor';
+import Button from '../../components/Button/Button';
 
 const Register: React.FC = () => {
   const [doctor, setDoctor] = React.useState<IDoctor>({
@@ -70,9 +71,9 @@ const Register: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <button className="btn-register" type="submit">
+            <Button className="btn-register" type="submit">
               Cadastre-se
-            </button>
+            </Button>
             <br></br>
           </form>
           <Link to="/">Já tenho uma conta</Link>

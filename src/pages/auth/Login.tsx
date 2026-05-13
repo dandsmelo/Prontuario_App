@@ -6,6 +6,7 @@ import Input from './components/Input/Input';
 import PasswordInput from './components/PasswordInput/PasswordInput';
 import { useAlert } from '../../components/Alert/AlertContext';
 import { useDoctor } from '../../hooks/useDoctor';
+import Button from '../../components/Button/Button';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -47,9 +48,9 @@ const Login: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button className="login-btn" type="submit">
+              <Button className="login-btn" type="submit">
                 Logar
-              </button>
+              </Button>
             </form>
             <Link to="/register">Criar uma conta</Link>
           </div>
