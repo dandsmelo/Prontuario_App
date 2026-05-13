@@ -23,7 +23,7 @@ export const useDoctor = () => {
     try {
       const response = await loginDoctorRequest(email, password);
       if (response.status === 200) {
-        login(response.data.token);
+        login(response.data.token, response.data.doctor.name);
         return response.data;
       }
     } catch (err) {

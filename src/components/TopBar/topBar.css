@@ -1,57 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-/*@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); - roboto*/
-
-*{
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins';
-}
-
-header{
-    display: flex;
-    width: 100%;
-}
-
-header>img{
-    left: 0;
-    width: 70px;
-    height: 40px;
-    margin: 5px 10px;
-}
-
-#topBar{
-    background-color: #0208ba;
+.topbar {
+    background-color: #ffff;
     height: 50px;
     margin-bottom: 20px;
-}
-
-#title{
-    margin:10px 20px;
-    color: white;
-}
-
-#ulTop{
     display: flex;
-    justify-content: space-around;
-    right: 0;
-    position: absolute;
-    margin-right: 20px;
-    padding: 10px 5px;
-    font-weight: 500;
-
+    width: 100%;
+    border-bottom: 1px solid #C4C4C4;
+    justify-content: space-between;
 }
 
-.liTop{
-    list-style: none;
-    margin-right: 15px;
-    color: white;
+.logo {
+    margin: 10px 20px;
+    color: #0208ba;
+}
+
+.page-list-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    color: #0000;
+}
+
+.page-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.page-list-item:hover {
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    border-bottom: 3px solid #0208ba;
+}
+
+.icon {
+    font-size: 22px;
+}
+
+.page-link {
     text-decoration: none;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight: 500;
 }
 
-.liTop:hover{
+.logout-btn {
+    list-style: none;
+    margin-right: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    color: #000000;
+    background: transparent;
+}
+
+.logout-btn:hover {
     color: #213547;
     transition: 0.25s;
 }
