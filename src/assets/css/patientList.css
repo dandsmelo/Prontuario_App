@@ -1,73 +1,83 @@
-*{
-    margin: 0;
-    padding: 0;
-    color: black;
-}
-
-#box{
+.patient-list-container {
     margin: 100px 150px;
-    padding-bottom: 150px;
 }
 
-.liO:hover{
-    visibility: visible;
-    color: black;
+.patient-list-title {
+    font-weight: 500;
 }
 
-#mini-box{
+.search-patients-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.search-patients {
+    background-color: white;
+    height: 44px;
+    width: 85%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.search-patient-icon {
+    font-size: 22px;
+    color: #636363;
+    margin-right: 30px;
+}
+
+.search-patient-input {
+    border: none;
+    width: 100%;
+}
+
+.patient-table-container {
     margin: 0 auto;
 }
 
-table{
+.patient-table {
     margin-top: 50px;
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-tr{
-    justify-content: space-around;
-    border-bottom: 1px solid black;
+.patients-table-header,
+.patients-table-tr {
+    border-bottom: 1px solid #C4C4C4;
 }
 
-#line{
-    justify-content: space-between;
+.patients-table-header {
+    height: 55px;
 }
 
-th{
-   padding: 5px 10px;
+.patients-table-th {
+    padding: 15px 0 15px 35px;
+    background-color: white;
+    font-size: 18px;
+    font-weight: 500;
 }
 
-.tr-pacientes:hover{
+.patients-table-tr:hover {
     background-color: #cbcbcb;
     transition: 0.25s;
 }
 
-td{
-    padding-left: 10px;
+.patients-table-footer {
+    border: none;
+    width: 100%;
+    height: 55px;
+}
+
+.patients-table-td {
+    padding-left: 35px;
     height: 50px;
     cursor: pointer;
-}
-
-.btn-add{
-    right: 0;
-    position: absolute;
-    display: flex;
-    margin: 150px;
-    border-radius: 5px;
-    background-color: #0208ba;
-    border: 1px solid transparent;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    color: white;
-    height: 30px;
-    padding: 5px 15px 0 15px;
-    font-size: 15px;
-    transition: 0.25s;
-    text-decoration: none;
-}
-
-.btn-add:hover{
-    background-color: #213547;
+    width: 25%;
 }

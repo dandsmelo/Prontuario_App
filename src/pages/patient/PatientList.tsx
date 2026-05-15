@@ -1,65 +1,76 @@
-import TopBar from "../../components/TopBar/TopBar";
-import '../../assets/css/patientList.css'
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getPatientsByDoctorId } from "../../api/patient.requests";
-
-interface PatientTable {
-    _id: string,
-    name: string,
-    diagnosis: string,
-    rg: string,
-}
+import TopBar from '../../components/TopBar/TopBar';
+import '../../assets/css/patientList.css';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IPatient } from '../../types/Patient';
+import Button from '../../components/Button/Button';
+import { FiSearch } from 'react-icons/fi';
+import { usePatient } from '../../hooks/usePatient';
 
 const PatientList: React.FC = () => {
+  const [patients, setPatients] = useState<IPatient[]>([]);
+  const { getPatientsByDoctorId } = usePatient();
 
-    const [pacientes, setPacientes] = useState<PatientTable[]>([]);
-  
-    useEffect(() => {
-      async function fetchPatientSummary() {
-        const data = await getPatientsByDoctorId();
-        setPacientes(data);
-      }
-  
-      fetchPatientSummary();
-    }, []);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-    
-    const handleRowClick = (id: string) => {
-        navigate(`/patient/${id}`);
-      };
+  const handleRowClick = (id: string) => {
+    navigate(`/patient/${id}`);
+  };
 
-    return(
-        <>
-            <TopBar />
-            <div id="box">
-                <h1>Meus Pacientes</h1>
-                <div id="mini-box">
-                    <table>
-                        <thead>
-                            <tr id="line">
-                                <th>Paciente</th>
-                                <th>Diagnóstico</th>
-                                <th>RG</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pacientes.map((paciente) => (
-                                <tr key={paciente._id} className="tr-pacientes" onClick={() => handleRowClick(paciente._id)}>
-                                    <td>{paciente.name}</td>
-                                    <td>{paciente.diagnosis}</td>
-                                    <td>{paciente.rg}</td>
-                                </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-                <Link to='/patientForm' className="btn-add">Novo paciente</Link>
-            </div>
-        </>
-    )
-}
+  const handleBtnClick = () => {
+    navigate('/patientForm');
+  };
+
+  useEffect(() => {
+    async function fetchPatient() {
+      const data = await getPatientsByDoctorId();
+      setPatients(data);
+    }
+    fetchPatient();
+  }, []);
+
+  return (
+    <>
+      <TopBar />
+      <div className="patient-list-container">
+        <h1 className="patient-list-title">Pacientes</h1>
+        <div className="search-patients-container">
+          <div className="search-patients">
+            <FiSearch className="search-patient-icon" />
+            <input className="search-patient-input" placeholder="Buscar paciente" />
+          </div>
+          <Button width="160px" onClick={handleBtnClick}>
+            + Novo paciente
+          </Button>
+        </div>
+        <div className="patient-table-container">
+          <table className="patient-table">
+            <thead>
+              <tr className="patients-table-header">
+                <th className="patients-table-th">Nome</th>
+                <th className="patients-table-th">Diagnóstico</th>
+                <th className="patients-table-th">RG</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patients.map((patient) => (
+                <tr
+                  key={patient._id}
+                  className="patients-table-tr"
+                  onClick={() => handleRowClick(patient._id)}
+                >
+                  <td className="patients-table-td">{patient.name}</td>
+                  <td className="patients-table-td">{patient.diagnosis}</td>
+                  <td className="patients-table-td">{patient.rg}</td>
+                </tr>
+              ))}
+              <tr className="patients-table-footer" />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default PatientList;
