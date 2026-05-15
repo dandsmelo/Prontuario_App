@@ -2,7 +2,7 @@ import TopBar from "../../components/TopBar/TopBar";
 import '../../assets/css/patient.css'
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPatientById } from "../../api/patient.requests";
+import { getPatientByIdRequest } from "../../api/patient.requests";
 import { IPatient } from "../../types/Patient";
 import arrow from '../../assets/images/arrow.png';
 
@@ -14,7 +14,7 @@ const Patient: React.FC = () => {
     useEffect(() => {
         async function fetchPatient() {
           if (id) {
-            const data = await getPatientById(id);
+            const data = await getPatientByIdRequest(id);
             setPaciente(data);
           }
         }

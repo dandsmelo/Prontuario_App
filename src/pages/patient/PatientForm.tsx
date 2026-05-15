@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TopBar from '../../components/TopBar/TopBar';
 import { IPatient } from '../../types/Patient';
 import '../../assets/css/patientForm.css';
-import { createPatient } from '../../api/patient.requests';
+import { createPatientRequest } from '../../api/patient.requests';
 import { useNavigate } from 'react-router-dom';
 
 const FichaPacientes: React.FC = () => {
@@ -19,7 +19,7 @@ const FichaPacientes: React.FC = () => {
     const savePatient = async (e: React.FormEvent) =>{
         try {
             e.preventDefault();
-            await createPatient(paciente);
+            await createPatientRequest(paciente);
             navigate('/patientList');
             alert('Paciente Cadastrado');
         } catch (error) {
