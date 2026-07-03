@@ -1,111 +1,175 @@
-import TopBar from "../../components/TopBar/TopBar";
-import '../../assets/css/patient.css'
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getPatientByIdRequest } from "../../api/patient.requests";
-import { IPatient } from "../../types/Patient";
-import arrow from '../../assets/images/arrow.png';
+import TopBar from '../../components/TopBar/TopBar';
+import '../../assets/css/patient.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getPatientByIdRequest } from '../../api/patient.requests';
+import { IPatient } from '../../types/Patient';
+import { IoIosArrowDropleft } from 'react-icons/io';
+import Button from '../../components/Button/Button';
+import TitleSession from '../../components/TitleSession/titleSession';
+import Input from '../../components/Input/Input';
+import { differenceInYears } from 'date-fns';
+import { usePatient } from '../../hooks/usePatient';
+import { FiExternalLink } from 'react-icons/fi';
+import { IoAddCircle } from 'react-icons/io5';
 
 const Patient: React.FC = () => {
-    
-    const { id } = useParams<{ id: string }>();
-    const [paciente, setPaciente] = useState<IPatient>();
+  const { id } = useParams<{ id: string }>();
+  const [patient, setPatient] = useState<IPatient>();
+  const [family, setFamily] = useState<IPatient[]>([]);
 
-    useEffect(() => {
-        async function fetchPatient() {
-          if (id) {
-            const data = await getPatientByIdRequest(id);
-            setPaciente(data);
-          }
-        }
-    
-        fetchPatient();
-      }, [id]);
-    
-      if (!paciente) {
-        return <div>Carregando...</div>;
+  const navigate = useNavigate();
+  const { getFamilyByIndexId, getPatientById } = usePatient();
+
+  const handleReturnPage = () => {
+    navigate('/patientList');
+  };
+
+  const translateCaseType = (caseType?: string) => {
+    if (caseType == 'Family') {
+      return 'Familiar';
+    }
+    return 'Caso índice';
+  };
+
+  const calculateAge = (birthDate: string): string => {
+    return `${differenceInYears(new Date(), new Date(birthDate))} anos`;
+  };
+
+  const mountAddress = (patient: IPatient) => {
+    return `${patient.address}, ${patient.number} ${patient.complement || ''} - ${patient.cep}`;
+  };
+
+  const getFamily = async (currentPatient: IPatient) => {
+    let response;
+
+    if (currentPatient.indexPatientId) {
+      response = await getPatientById(currentPatient.indexPatientId);
+      if (response) {
+        setFamily([response]);
       }
+    } else {
+      response = await getFamilyByIndexId(currentPatient._id!);
+      if (response) {
+        setFamily(response);
+      }
+      return;
+    }
+  };
 
-    return(
-        <>
-            <TopBar></TopBar>
-            <Link to='/patientList' className="btn-back"><img src={arrow} id="arrow"></img>Pacientes</Link>
-            <div id="container">
+  const fetchPatient = async (id: string) => {
+    const data = await getPatientByIdRequest(id);
+    setPatient(data);
+    await getFamily(data);
+  };
 
-                <div id="grid-item">
-                    <h1>Informações do Paciente</h1>
-                    <hr></hr>
-                </div>
-            
-                <div id="grid-item1">
+  const handlePatientPage = (id: string) => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    navigate(`/patient/${id}`);
+  };
 
-                    <h3>{paciente.name}</h3>
-                    <span id="diagnostico">Caso Índice</span>
+  const familySectionTitle = patient?.indexPatientId ? 'Caso índice' : 'Familiares';
 
-                    <h3>Diagnóstico</h3>
-                    <span>{paciente.diagnosis}</span><br></br>
+  const familyTitleWidth = patient?.indexPatientId ? '120px' : '105px';
 
-                    <h3>Resumo</h3>
-                    <p id="p">{paciente.summary}</p><br></br>
+  useEffect(() => {
+    if (id) {
+      fetchPatient(id);
+    }
+  }, [id]);
 
-                    <h3>Familiares</h3>
-                    <button className="buttons">Adicionar familiar</button>
-                    <span><ul id='ulFamily'>
-                        <a><li className='liFicha'>Caso 1</li></a>
-                    </ul></span>
+  if (!patient) {
+    return null;
+  }
 
-                    <br></br>
+  return (
+    <>
+      <TopBar></TopBar>
+      <IoIosArrowDropleft
+        onClick={handleReturnPage}
+        className="btn-back-page"
+        title="Voltar a página anterior"
+      />
+      <div className="patient-page-container">
+        <div className="patient-header-wrapped">
+          <div className="patient-header">
+            <h1 className="patient-name">{patient?.name}</h1>
+            <h4 className="patient-case-type">{translateCaseType(patient?.caseType)}</h4>
+          </div>
+          <Button width="190px">+ Novo atendimento</Button>
+        </div>
+        <div className="patient-section">
+          <TitleSession title="Dados pessoais" />
+          <div className="patient-input-section">
+            <Input
+              labelText="Data de nascimento"
+              value={patient.birthDate}
+              type="date"
+              width="50%"
+              isDisabled
+            />
+            <Input
+              labelText="Idade"
+              value={calculateAge(patient.birthDate)}
+              type="text"
+              width="50%"
+              isDisabled
+            />
+          </div>
+          <div className="patient-input-section">
+            <Input labelText="Sexo" value={patient.sex} type="text" width="50%" isDisabled />
+            <Input labelText="Email" value={patient.email} type="text" width="50%" isDisabled />
+          </div>
+          <div className="patient-input-section">
+            <Input labelText="Telefone" value={patient.phone} type="tel" width="50%" isDisabled />
+            <Input
+              labelText="Telefone reserva"
+              value={patient?.phoneReservation}
+              type="tel"
+              width="50%"
+              isDisabled
+            />
+          </div>
+          <div className="patient-input-section">
+            <Input labelText="RG" value={patient.rg} type="text" width="50%" isDisabled />
+            <Input labelText="CPF" value={patient.cpf} type="text" width="50%" isDisabled />
+          </div>
+          <Input labelText="Endereço" value={mountAddress(patient)} type="text" isDisabled />
+        </div>
+        <div className="patient-section">
+          <TitleSession title="Resumo clínico" width="145px" />
+          <Input labelText="Diagnóstico" value={patient.diagnosis} type="text" isDisabled />
+          <Input labelText="Observações" value={patient.summary} type="text" isDisabled />
+        </div>
+        <div className="patient-section">
+          <TitleSession title="Histórico" width="90px" />
+          <div className="patient-card" title="Novo atendimento">
+            <IoAddCircle className="patient-card-icon" />
+            <p>Novo</p>
+          </div>
+        </div>
+        {family.length > 0 ? (
+          <div className="patient-section">
+            <TitleSession title={familySectionTitle} width={familyTitleWidth} />
+            {family.map((f) => (
+              <ul className="patient-family-list" onClick={() => handlePatientPage(f._id)}>
+                <li className="patient-family-item">{f.name}</li>
+                <FiExternalLink title="Visualizar paciente" />
+              </ul>
+            ))}
+          </div>
+        ) : (
+          ''
+        )}
+        <div className="patient-button-section">
+          <Button width="150px">Editar</Button>
+          <Button width="150px" style={{ background: '#BA0202' }}>
+            Excluir
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+};
 
-                   
-
-                    <br></br><br></br>
-
-                    <div className="btn-container">
-                        <button className="buttons">Deletar</button>
-                        <button className="buttons">Editar</button><br></br>
-                    </div>
-
-                    </div>
-
-                    <div id="grid-item2">
-                        <h3>Data de Nascimento</h3>
-                        <span>{paciente.birthDate}</span>
-
-                        <h3>Sexo</h3>
-                        <span>{paciente.sex}</span>
-
-                        <h3>CPF</h3>
-                        <span>{paciente.cpf}</span>
-
-                        <h3>RG</h3>
-                        <span>{paciente.rg}</span>
-
-                        <h3>Telefone</h3>
-                        <span>{paciente.phone}</span>
-                    </div>
-
-                    <div id="grid-item3">
-
-                        <h3>Telefone Reserva</h3>
-                        <span>{paciente.phoneReservation}</span>
-
-                        <h3>Logradouro</h3>
-                        <span>{paciente.address}</span>
-
-                        <h3>Número</h3>
-                        <span>{paciente.number}</span>
-
-                        <h3>Bairro</h3>
-                        <span>{paciente.neighborhood}</span>
-
-                        <h3>CEP</h3>
-                        <span>{paciente.cep}</span>
-
-                    </div>
-
-            </div>
-        </>
-    )
-}
-
-export default Patient
+export default Patient;
