@@ -64,6 +64,11 @@ export const usePatient = () => {
       return response;
     } catch (err) {
       const error = err as ApiError;
+
+      if (error.customMessage === 'Nenhum familiar encontrado') {
+        return [];
+      }
+
       showError(error.customMessage);
       return null;
     }
