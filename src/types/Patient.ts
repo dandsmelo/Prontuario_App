@@ -1,6 +1,6 @@
 export interface IPatient {
-  _id: string;
-  doctorId: string;
+  _id?: string;
+  doctorId?: string;
   caseType: 'Index' | 'Family';
   indexPatientId?: string;
   name: string;

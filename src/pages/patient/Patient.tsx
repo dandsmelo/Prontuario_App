@@ -2,7 +2,6 @@ import TopBar from '../../components/TopBar/TopBar';
 import '../../assets/css/patient.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getPatientByIdRequest } from '../../api/patient.requests';
 import { IPatient } from '../../types/Patient';
 import { IoIosArrowDropleft } from 'react-icons/io';
 import Button from '../../components/Button/Button';
@@ -58,7 +57,7 @@ const Patient: React.FC = () => {
   };
 
   const fetchPatient = async (id: string) => {
-    const data = await getPatientByIdRequest(id);
+    const data = await getPatientById(id);
     setPatient(data);
     await getFamily(data);
   };
@@ -71,6 +70,10 @@ const Patient: React.FC = () => {
   const familySectionTitle = patient?.indexPatientId ? 'Caso índice' : 'Familiares';
 
   const familyTitleWidth = patient?.indexPatientId ? '120px' : '105px';
+
+  const handleEditPatient = (id: string) => {
+    navigate(`/patientForm/${id}`);
+  };
 
   useEffect(() => {
     if (id) {
@@ -162,7 +165,9 @@ const Patient: React.FC = () => {
           ''
         )}
         <div className="patient-button-section">
-          <Button width="150px">Editar</Button>
+          <Button width="150px" onClick={() => handleEditPatient(patient._id)}>
+            Editar
+          </Button>
           <Button width="150px" style={{ background: '#BA0202' }}>
             Excluir
           </Button>
