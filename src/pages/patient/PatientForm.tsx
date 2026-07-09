@@ -1,125 +1,252 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import TopBar from '../../components/TopBar/TopBar';
 import { IPatient } from '../../types/Patient';
 import '../../assets/css/patientForm.css';
-import { createPatientRequest } from '../../api/patient.requests';
 import { useNavigate } from 'react-router-dom';
+import TitleSession from '../../components/TitleSession/titleSession';
+import { IoIosArrowDropleft } from 'react-icons/io';
+import { useParams } from 'react-router-dom';
+import { usePatient } from '../../hooks/usePatient';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
+import Select from '../../components/Select/Select';
+import { useAlert } from '../../components/Alert';
 
 const FichaPacientes: React.FC = () => {
-    
-    const [paciente, setPaciente] = useState({} as IPatient);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { getPatientById, createPatient, updatePatient } = usePatient();
+  const { success } = useAlert();
+  const isEditing = !!id;
+  const [patient, setPatient] = useState<IPatient>({
+    _id: '',
+    name: '',
+    caseType: 'Index',
+    birthDate: '',
+    sex: 'Feminino',
+    email: '',
+    phone: '',
+    phoneReservation: '',
+    cpf: '',
+    rg: '',
+    address: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    cep: '',
+    diagnosis: '',
+    summary: '',
+  });
 
-    const navigate = useNavigate();
+  const loadPatient = async () => {
+    if (!id) return;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setPaciente({ ...paciente, [name]: value });
+    const response = await getPatientById(id);
+    setPatient(response);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setPatient({ ...patient, [name]: value });
+  };
+
+  const savePatient = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isEditing) {
+      const patientData = {
+        ...patient,
       };
 
-    const savePatient = async (e: React.FormEvent) =>{
-        try {
-            e.preventDefault();
-            await createPatientRequest(paciente);
-            navigate('/patientList');
-            alert('Paciente Cadastrado');
-        } catch (error) {
-            alert('Esse paciente já existe');
-        }
+      delete patientData._id;
+      delete patientData.doctorId;
+
+      await updatePatient(id!, patientData);
+      success('Paciente atualizado com sucesso!');
+      navigate(`/patient/${id}`);
+    } else {
+      await createPatient(patient);
+      success('Paciente salvo com sucesso!');
+      navigate('/patientList');
     }
+  };
 
-    return(
-        <>
-            <div>
-                <TopBar></TopBar>
-                <form onSubmit={savePatient}>
-                    <h1 className='title'>Ficha do Paciente</h1>
+  const handleReturnPage = () => {
+    navigate('/patientList');
+  };
 
-                    <label>Nome Completo</label><br></br>
-                    <input type="text" id="name" name='name' value={paciente.name} className="inputs bigInputs" onChange={handleChange} required></input><br></br>
+  useEffect(() => {
+    if (id) {
+      loadPatient();
+    }
+  }, [id]);
 
-                    <span className='inputDuplos'>
-                        <span>
-                            <label>Data de Nascimento</label><br></br>
-                            <input type="date" id="date" className="inputs" onChange={handleChange} name='birthDate' value={paciente.birthDate} required></input><br></br>
-                        </span>
+  return (
+    <>
+      <TopBar></TopBar>
+      <IoIosArrowDropleft
+        onClick={handleReturnPage}
+        className="btn-back-page"
+        title="Voltar a página anterior"
+      />
+      <div className="patient-form-container">
+        <h1 className="patient-list-header">Ficha do Paciente</h1>
+        <form onSubmit={savePatient} className="patient-list-form ">
+          <TitleSession title="Dados pessoais" />
+          <Input
+            labelText="Nome completo"
+            value={patient.name ?? ''}
+            type="text"
+            name="name"
+            onChange={handleChange}
+          />
+          <div className="patient-list-input-section">
+            <Input
+              labelText="Data de nascimento"
+              value={patient.birthDate ?? ''}
+              type="date"
+              width="50%"
+              name="birthDate"
+              onChange={handleChange}
+            />
+            <Select
+              labelText="Caso"
+              value={patient.caseType ?? ''}
+              width="50%"
+              name="caseType"
+              onChange={handleChange}
+              options={[
+                { label: 'Índice', value: 'Index' },
+                { label: 'Familiar', value: 'Family' },
+              ]}
+            />
+          </div>
+          <div className="patient-list-input-section">
+            <Select
+              labelText="Sexo"
+              value={patient.sex ?? ''}
+              width="50%"
+              name="sex"
+              onChange={handleChange}
+              options={[
+                { label: 'Feminino', value: 'feminino' },
+                { label: 'Masculino', value: 'masculino' },
+                { label: 'Outro', value: 'outro' },
+              ]}
+            />
+            <Input
+              labelText="Email"
+              value={patient.email ?? ''}
+              type="email"
+              width="50%"
+              name="email"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="patient-list-input-section">
+            <Input
+              labelText="Telefone"
+              value={patient.phone ?? ''}
+              type="tel"
+              width="50%"
+              name="phone"
+              onChange={handleChange}
+            />
+            <Input
+              labelText="Telefone reserva"
+              value={patient.phoneReservation ?? ''}
+              type="tel"
+              name="phoneReservation"
+              width="50%"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="patient-list-input-section">
+            <Input
+              labelText="RG"
+              value={patient.rg ?? ''}
+              type="text"
+              width="50%"
+              name="rg"
+              onChange={handleChange}
+            />
+            <Input
+              labelText="CPF"
+              value={patient.cpf ?? ''}
+              type="text"
+              width="50%"
+              name="cpf"
+              onChange={handleChange}
+            />
+          </div>
+          <Input
+            labelText="Endereço"
+            value={patient.address ?? ''}
+            type="text"
+            name="address"
+            onChange={handleChange}
+          />
+          <div className="patient-list-input-section">
+            <Input
+              labelText="Número"
+              value={patient.number ?? ''}
+              type="text"
+              width="50%"
+              name="number"
+              onChange={handleChange}
+            />
+            <Input
+              labelText="Complemento"
+              value={patient.complement ?? ''}
+              type="text"
+              width="50%"
+              name="complement"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="patient-list-input-section">
+            <Input
+              labelText="Bairro"
+              value={patient.neighborhood ?? ''}
+              type="text"
+              width="50%"
+              name="neighborhood"
+              onChange={handleChange}
+            />
+            <Input
+              labelText="CEP"
+              value={patient.cep ?? ''}
+              type="text"
+              width="50%"
+              name="cep"
+              onChange={handleChange}
+            />
+          </div>
+          <TitleSession title="Resumo clínico" />
+          <Input
+            labelText="Diagnóstico"
+            value={patient.diagnosis ?? ''}
+            type="text"
+            name="diagnosis"
+            onChange={handleChange}
+          />
+          <Input
+            labelText="Resumo"
+            value={patient.summary ?? ''}
+            type="text"
+            name="summary"
+            onChange={handleChange}
+          />
+          <div className="patient-button-section">
+            <Button width="150px" type="submit">
+              Salvar
+            </Button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+};
 
-                        <span>
-                            <label>Sexo</label><br></br>
-                            <select id="sex-select" className='inputs'onChange={handleChange} name='sex' defaultValue="Feminino" value={paciente.sex} required>
-                                <option value="Feminino">Feminino</option>
-                                <option value="Masculino">Masculino</option>
-                                <option value="Outro">Outro</option>
-                            </select><br></br>
-                        </span>
-                    </span>
-
-                    <span className='inputDuplos'>
-                        <span>
-                            <label>Telefone</label><br></br>
-                            <input type="tel" pattern="[0-9]{10}" id="phoneNum" className="inputs" onChange={handleChange} name='phone' value={paciente.phone} required></input>
-                        </span>
-
-                        <span>
-                            <label>Telefone Reserva</label><br></br>
-                            <input type="tel" pattern="[0-9]{10}" id="telephone" className="inputs" onChange={handleChange} name='phoneReservation' value={paciente.phoneReservation}></input><br></br>
-                        </span>
-                    </span>
-
-                    <span className='inputDuplos'>
-                        <span>
-                            <label>CPF</label><br></br>
-                            <input type="text" id="cpf" className="inputs" onChange={handleChange} name='cpf' value={paciente.cpf} required></input><br></br>
-                        </span>
-
-                        <span>
-                            <label>RG</label><br></br>
-                            <input type="text" id="rg" className="inputs" onChange={handleChange} name='rg' value={paciente.rg} required></input><br></br>
-                        </span>
-                    </span>
-
-                    <label>Endereço</label><br></br>
-                    <input type="text" id="log" className="inputs bigInputs" onChange={handleChange} name='address' value={paciente.address} required></input><br></br>
-
-                    <span className='inputDuplos'>
-                        <span>
-                            <label>Número</label><br></br>
-                            <input type="number" id="numero" className="inputs" onChange={handleChange} name='number' value={paciente.number} required></input><br></br>
-                        </span>
-
-                        <span>
-                            <label>Complemento</label><br></br>
-                            <input type="text" id="complemento" className="inputs" onChange={handleChange} name='complement' value={paciente.complement}></input><br></br>
-                        </span>
-                    </span>
-
-                    <span className='inputDuplos'>
-                        <span>
-                            <label>Bairro</label><br></br>
-                            <input type="text" id="bairro" className="inputs" onChange={handleChange} name='neighborhood' value={paciente.neighborhood} required></input><br></br>
-                        </span>
-
-                        <span>
-                            <label>CEP</label><br></br>
-                            <input type="text" id="cep" className="inputs" onChange={handleChange} name='cep' value={paciente.cep} required></input><br></br>
-                        </span>
-                    </span>
-
-                    <label>Diágnostico</label><br></br>
-                    <input type="text" className="inputs bigInputs" onChange={handleChange} name='diagnosis' value={paciente.diagnosis} required></input><br></br>
-
-                    <label>Resumo</label><br></br>
-                    <input type="text" id="resumo" className="inputs bigInputs" onChange={handleChange} name='summary' value={paciente.summary}></input>
-
-                    <br></br>
-
-                    <button className='btn-save' type='submit'>Salvar</button>
-                    {/* <button className='btnSave' type='reset'>Limpar</button> */}
-
-                </form>
-            </div>
-        </>
-    )
-}
-
-export default FichaPacientes
-
+export default FichaPacientes;

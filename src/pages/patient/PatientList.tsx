@@ -57,7 +57,7 @@ const PatientList: React.FC = () => {
                 <tr
                   key={patient._id}
                   className="patients-table-tr"
-                  onClick={() => handleRowClick(patient._id)}
+                  onClick={() => handleRowClick(patient._id!)}
                 >
                   <td className="patients-table-td">{patient.name}</td>
                   <td className="patients-table-td">{patient.diagnosis}</td>
