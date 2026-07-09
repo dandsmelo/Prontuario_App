@@ -1,0 +1,20 @@
+.form-select-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-select-input label {
+    margin-bottom: 5px;
+}
+
+.form-select-input select {
+    height: 35px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border-style: none;
+    transition: 0.25s;
+    font-size: 14px;
+    background-color: white;
+}
