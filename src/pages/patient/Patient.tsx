@@ -11,14 +11,18 @@ import { differenceInYears } from 'date-fns';
 import { usePatient } from '../../hooks/usePatient';
 import { FiExternalLink } from 'react-icons/fi';
 import { IoAddCircle } from 'react-icons/io5';
+import { useAlert } from '../../components/Alert';
+import Modal from '../../components/Modal';
 
 const Patient: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<IPatient>();
   const [family, setFamily] = useState<IPatient[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { getFamilyByIndexId, getPatientById } = usePatient();
+  const { getFamilyByIndexId, getPatientById, deletePatient } = usePatient();
+  const { success } = useAlert();
 
   const handleReturnPage = () => {
     navigate('/patientList');
@@ -75,6 +79,12 @@ const Patient: React.FC = () => {
     navigate(`/patientForm/${id}`);
   };
 
+  const handleDeletePatient = async (id: string) => {
+    await deletePatient(id);
+    success('Paciente deletado com sucesso!');
+    navigate('/patientList');
+  };
+
   useEffect(() => {
     if (id) {
       fetchPatient(id);
@@ -87,6 +97,17 @@ const Patient: React.FC = () => {
 
   return (
     <>
+      <Modal isOpen={isModalOpen} title="Excluir paciente" onClose={() => setIsModalOpen(false)}>
+        <p className="modal-text">Tem certeza que deseja excluir este paciente?</p>
+
+        <div className="modal-buttons">
+          <Button onClick={() => setIsModalOpen(false)} className="patient-delete-button">
+            Cancelar
+          </Button>
+
+          <Button onClick={() => handleDeletePatient(patient._id!)}>Confirmar</Button>
+        </div>
+      </Modal>
       <TopBar></TopBar>
       <IoIosArrowDropleft
         onClick={handleReturnPage}
@@ -168,7 +189,11 @@ const Patient: React.FC = () => {
           <Button width="150px" onClick={() => handleEditPatient(patient._id!)}>
             Editar
           </Button>
-          <Button width="150px" style={{ background: '#BA0202' }}>
+          <Button
+            className="patient-delete-button"
+            width="150px"
+            onClick={() => setIsModalOpen(true)}
+          >
             Excluir
           </Button>
         </div>
