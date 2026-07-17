@@ -7,11 +7,12 @@ interface Props {
   type: string;
   width?: string;
   isDisabled?: boolean;
+  isRequired?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: Props) {
-  const { labelText, value, name, type, width, isDisabled, onChange } = props;
+  const { labelText, value, name, type, width, isDisabled, isRequired, onChange } = props;
 
   return (
     <div className="form-input" style={{ width }}>
@@ -22,7 +23,7 @@ export default function Input(props: Props) {
         name={name}
         onChange={onChange}
         disabled={isDisabled}
-        required
+        required={!isRequired}
       />
     </div>
   );
