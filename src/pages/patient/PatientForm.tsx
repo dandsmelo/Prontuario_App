@@ -15,13 +15,15 @@ import { useAlert } from '../../components/Alert';
 const FichaPacientes: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { getPatientById, createPatient, updatePatient } = usePatient();
+  const { getPatientById, createPatient, updatePatient, getPatientsByDoctorId } = usePatient();
   const { success } = useAlert();
+  const [patientOptions, setPatientOptions] = useState<IPatient[]>([]);
   const isEditing = !!id;
   const [patient, setPatient] = useState<IPatient>({
     _id: '',
     name: '',
     caseType: 'Index',
+    indexPatientId: '',
     birthDate: '',
     sex: 'Feminino',
     email: '',
@@ -52,6 +54,17 @@ const FichaPacientes: React.FC = () => {
     setPatient({ ...patient, [name]: value });
   };
 
+  const getIndexPatients = async () => {
+    const patients = await getPatientsByDoctorId();
+    const indexPatientsList = patients.filter((p: IPatient) => p.caseType === 'Index');
+    setPatientOptions(indexPatientsList);
+  };
+
+  const patientSelectOptions = patientOptions.map((patient) => ({
+    label: patient.name,
+    value: patient._id!,
+  }));
+
   const savePatient = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isEditing) {
@@ -80,6 +93,8 @@ const FichaPacientes: React.FC = () => {
     if (id) {
       loadPatient();
     }
+
+    getIndexPatients();
   }, [id]);
 
   return (
@@ -122,6 +137,17 @@ const FichaPacientes: React.FC = () => {
               ]}
             />
           </div>
+          {patient.caseType === 'Family' ? (
+            <Select
+              labelText="Caso índice"
+              value={patient.indexPatientId ?? ''}
+              name="indexPatientId"
+              onChange={handleChange}
+              options={patientSelectOptions}
+            />
+          ) : (
+            ''
+          )}
           <div className="patient-list-input-section">
             <Select
               labelText="Sexo"
@@ -160,6 +186,7 @@ const FichaPacientes: React.FC = () => {
               name="phoneReservation"
               width="50%"
               onChange={handleChange}
+              isRequired
             />
           </div>
           <div className="patient-list-input-section">
@@ -203,6 +230,7 @@ const FichaPacientes: React.FC = () => {
               width="50%"
               name="complement"
               onChange={handleChange}
+              isRequired
             />
           </div>
           <div className="patient-list-input-section">

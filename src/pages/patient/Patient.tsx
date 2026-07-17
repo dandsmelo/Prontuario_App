@@ -155,7 +155,7 @@ const Patient: React.FC = () => {
           <div className="patient-section">
             <TitleSession title={familySectionTitle} width={familyTitleWidth} />
             {family.map((f) => (
-              <ul className="patient-family-list" onClick={() => handlePatientPage(f._id)}>
+              <ul className="patient-family-list" onClick={() => handlePatientPage(f._id!)}>
                 <li className="patient-family-item">{f.name}</li>
                 <FiExternalLink title="Visualizar paciente" />
               </ul>
@@ -165,7 +165,7 @@ const Patient: React.FC = () => {
           ''
         )}
         <div className="patient-button-section">
-          <Button width="150px" onClick={() => handleEditPatient(patient._id)}>
+          <Button width="150px" onClick={() => handleEditPatient(patient._id!)}>
             Editar
           </Button>
           <Button width="150px" style={{ background: '#BA0202' }}>
