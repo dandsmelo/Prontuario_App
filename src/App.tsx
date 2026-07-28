@@ -5,6 +5,7 @@ import ProtectedRoute from './routes/protectedRoutes.tsx';
 import PatientList from './pages/patient/PatientList.tsx';
 import PatientForm from './pages/patient/PatientForm.tsx';
 import Patient from './pages/patient/Patient.tsx';
+import Attendance from './pages/attendance/Attendance.tsx';
 
 function App() {
   return (
@@ -41,6 +42,22 @@ function App() {
           element={
             <ProtectedRoute>
               <PatientList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attendance/:patientId/view/:id"
+          element={
+            <ProtectedRoute>
+              <Attendance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attendance/new/:patientId"
+          element={
+            <ProtectedRoute>
+              <Attendance />
             </ProtectedRoute>
           }
         />
