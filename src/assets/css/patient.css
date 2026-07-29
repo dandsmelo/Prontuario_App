@@ -56,8 +56,9 @@
     gap: 20px;
 }
 
-.patient-card {
+.patient-card-button {
     background-color: white;
+    border-style: none;
     padding: 10px;
     display: flex;
     border-radius: 5px;
@@ -75,9 +76,8 @@
     font-weight: 600;
 }
 
-
-.patient-card:hover .patient-card-icon,
-.patient-card:hover p {
+.patient-card-button:hover .patient-card-icon,
+.patient-card-button:hover p {
     color: #0208ba;
     fill: #0208ba;
 }
@@ -111,6 +111,7 @@
 .patient-delete-button {
     background-color: #BA0202;
 }
+
 .patient-delete-button:hover {
-    background-color:#920303;
+    background-color: #920303;
 }

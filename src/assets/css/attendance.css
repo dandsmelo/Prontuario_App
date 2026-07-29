@@ -1,0 +1,20 @@
+.attendance-container {
+    margin: 60px 150px;
+    padding-bottom: 60px;
+}
+
+.attendance-header {
+    font-weight: 500;
+}
+
+.attendance-input-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.attendance-button-section {
+    display: flex;
+    justify-content: right;
+    margin-top: 50px;
+}

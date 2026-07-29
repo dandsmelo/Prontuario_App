@@ -13,15 +13,21 @@ import { FiExternalLink } from 'react-icons/fi';
 import { IoAddCircle } from 'react-icons/io5';
 import { useAlert } from '../../components/Alert';
 import Modal from '../../components/Modal';
+import { IAttendance } from '../../types/Attendance';
+import { useAttendance } from '../../hooks/useAttendance';
+import AttendanceCard from './components/Card';
+import Carousel from '../../components/Carousel/Carousel';
 
 const Patient: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [patient, setPatient] = useState<IPatient>();
   const [family, setFamily] = useState<IPatient[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [attendances, setAttendances] = useState<IAttendance[]>([]);
 
   const navigate = useNavigate();
   const { getFamilyByIndexId, getPatientById, deletePatient } = usePatient();
+  const { listAttendancesByPatientId } = useAttendance();
   const { success } = useAlert();
 
   const handleReturnPage = () => {
@@ -60,10 +66,17 @@ const Patient: React.FC = () => {
     }
   };
 
+  const getAttendancesByPatientId = async (patient: IPatient) => {
+    if (!patient) return;
+    const response = await listAttendancesByPatientId(patient._id!);
+    setAttendances(response);
+  };
+
   const fetchPatient = async (id: string) => {
     const data = await getPatientById(id);
     setPatient(data);
     await getFamily(data);
+    await getAttendancesByPatientId(data);
   };
 
   const handlePatientPage = (id: string) => {
@@ -83,6 +96,10 @@ const Patient: React.FC = () => {
     await deletePatient(id);
     success('Paciente deletado com sucesso!');
     navigate('/patientList');
+  };
+
+  const handleGoToAttendance = (id: string) => {
+    navigate(`/attendance/new/${id}`);
   };
 
   useEffect(() => {
@@ -120,7 +137,9 @@ const Patient: React.FC = () => {
             <h1 className="patient-name">{patient?.name}</h1>
             <h4 className="patient-case-type">{translateCaseType(patient?.caseType)}</h4>
           </div>
-          <Button width="190px">+ Novo atendimento</Button>
+          <Button width="190px" onClick={() => handleGoToAttendance(patient._id!)}>
+            + Novo atendimento
+          </Button>
         </div>
         <div className="patient-section">
           <TitleSession title="Dados pessoais" />
@@ -167,10 +186,21 @@ const Patient: React.FC = () => {
         </div>
         <div className="patient-section">
           <TitleSession title="Histórico" width="90px" />
-          <div className="patient-card" title="Novo atendimento">
+          <button
+            className="patient-card-button"
+            title="Novo atendimento"
+            onClick={() => handleGoToAttendance(patient._id!)}
+          >
             <IoAddCircle className="patient-card-icon" />
             <p>Novo</p>
-          </div>
+          </button>
+          {attendances.length > 0 && (
+            <Carousel style={{ marginTop: '20px' }}>
+              {attendances.map((attendance) => (
+                <AttendanceCard attendance={attendance} />
+              ))}
+            </Carousel>
+          )}
         </div>
         {family.length > 0 ? (
           <div className="patient-section">
