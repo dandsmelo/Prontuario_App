@@ -21,6 +21,16 @@ export const getPatientByIdRequest = async (id: string) => {
   return response.data;
 };
 
+export const searchPatientsRequest = async (field: string, value: string) => {
+  const response = await api.get(`/patients/search`, {
+    params: {
+      field,
+      value,
+    },
+  });
+  return response.data;
+};
+
 export const getFamilyByIndexIdRequest = async (indexId: string) => {
   const response = await api.get(`/patients/${indexId}/family`);
   return response.data;

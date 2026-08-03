@@ -9,7 +9,9 @@ import { usePatient } from '../../hooks/usePatient';
 
 const PatientList: React.FC = () => {
   const [patients, setPatients] = useState<IPatient[]>([]);
-  const { getPatientsByDoctorId } = usePatient();
+  const [searchParam, setSearchParam] = useState<string>('name');
+  const [search, setSearch] = useState('');
+  const { getPatientsByDoctorId, searchPatients } = usePatient();
 
   const navigate = useNavigate();
 
@@ -21,13 +23,34 @@ const PatientList: React.FC = () => {
     navigate('/patientForm');
   };
 
+  const handleChangeSearchParam = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchParam(e.target.value);
+  };
+
+  const handleSearchPatient = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const searchOptions = [
+    { label: 'Nome', value: 'name' },
+    { label: 'RG', value: 'rg' },
+    { label: 'CPF', value: 'cpf' },
+  ];
+
   useEffect(() => {
-    async function fetchPatient() {
-      const data = await getPatientsByDoctorId();
+    const timeout = setTimeout(async () => {
+      if (!search.trim()) {
+        const data = await getPatientsByDoctorId();
+        setPatients(data);
+        return;
+      }
+
+      const data = await searchPatients(searchParam, search);
       setPatients(data);
-    }
-    fetchPatient();
-  }, []);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [search, searchParam]);
 
   return (
     <>
@@ -37,7 +60,23 @@ const PatientList: React.FC = () => {
         <div className="search-patients-container">
           <div className="search-patients">
             <FiSearch className="search-patient-icon" />
-            <input className="search-patient-input" placeholder="Buscar paciente" />
+            <input
+              className="search-patient-input"
+              placeholder="Buscar paciente"
+              value={search}
+              onChange={handleSearchPatient}
+            />
+            <select
+              name={searchParam}
+              onChange={handleChangeSearchParam}
+              className="search-patient-select"
+            >
+              {searchOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
           <Button width="160px" onClick={handleBtnClick}>
             + Novo paciente

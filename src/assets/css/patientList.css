@@ -30,8 +30,17 @@
 }
 
 .search-patient-input {
+    appearance: none;
+    outline: none;
     border: none;
     width: 100%;
+    border-right: 1px solid #636363;
+}
+
+.search-patient-select {
+    border: none;
+    background-color: white;
+    padding: 5px 10px;
 }
 
 .patient-table-container {
@@ -50,7 +59,7 @@
 
 .patients-table-header,
 .patients-table-tr {
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #dddddd;
 }
 
 .patients-table-header {

@@ -5,6 +5,7 @@ import {
   getPatientByIdRequest,
   getPatientsByDoctorIdRequest,
   getPatientsRequest,
+  searchPatientsRequest,
   updatePatientRequest,
 } from '../api/patient.requests';
 import { useAlert } from '../components/Alert';
@@ -58,6 +59,17 @@ export const usePatient = () => {
     }
   };
 
+  const searchPatients = async (field: string, value: string) => {
+    try {
+      const response = await searchPatientsRequest(field, value);
+      return response;
+    } catch (err) {
+      const error = err as ApiError;
+      showError(error.customMessage);
+      return [];
+    }
+  };
+
   const getFamilyByIndexId = async (indexId: string) => {
     try {
       const response = await getFamilyByIndexIdRequest(indexId);
@@ -101,6 +113,7 @@ export const usePatient = () => {
     getPatients,
     getPatientsByDoctorId,
     getPatientById,
+    searchPatients,
     getFamilyByIndexId,
     updatePatient,
     deletePatient,
