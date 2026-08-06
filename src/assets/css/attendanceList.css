@@ -1,0 +1,91 @@
+.attendance-list-container {
+    margin: 100px 150px;
+}
+
+.attendance-list-title {
+    font-weight: 500;
+}
+
+.search-attendances-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.search-attendances {
+    background-color: white;
+    height: 44px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.search-attendance-icon {
+    font-size: 22px;
+    color: #636363;
+    margin-right: 30px;
+}
+
+.search-attendance-input {
+    appearance: none;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+.search-attendance-select {
+    border: none;
+    background-color: white;
+    padding: 5px 10px;
+}
+
+.attendance-table-container {
+    margin: 0 auto;
+}
+
+.attendance-table {
+    margin-top: 50px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.attendances-table-header,
+.attendances-table-tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.attendances-table-header {
+    height: 55px;
+}
+
+.attendances-table-th {
+    padding: 15px 0 15px 35px;
+    background-color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.attendances-table-tr:hover {
+    background-color: #cbcbcb;
+    transition: 0.25s;
+}
+
+.attendances-table-footer {
+    border: none;
+    width: 100%;
+    height: 55px;
+}
+
+.attendances-table-td {
+    padding-left: 35px;
+    height: 50px;
+    cursor: pointer;
+    width: 25%;
+}
