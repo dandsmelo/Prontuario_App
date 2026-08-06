@@ -11,5 +11,6 @@
     border-style: none;
     border: 1px solid #0208ba;
     transition: 0.25s;
+    font-size: 14px;
     background-color: white;
 }
