@@ -6,40 +6,40 @@
     font-weight: 500;
 }
 
-.search-attendances-container {
+.sort-attendances-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 10px;
     align-items: center;
-    margin-top: 20px;
 }
 
-.search-attendances {
-    background-color: white;
-    height: 44px;
-    width: 100%;
-    border-radius: 5px;
+.search-attendance-container {
     display: flex;
+    gap: 10px;
     align-items: center;
-    padding: 0 20px;
-}
-
-.search-attendance-icon {
-    font-size: 22px;
-    color: #636363;
-    margin-right: 30px;
-}
-
-.search-attendance-input {
-    appearance: none;
-    outline: none;
-    border: none;
-    width: 100%;
 }
 
 .search-attendance-select {
-    border: none;
+    border: 1px solid #636363;
+    border-radius: 5px;
     background-color: white;
     padding: 5px 10px;
+}
+
+.attendance-order-button {
+    padding: 5px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}
+
+.attendance-order-icon {
+    font-size: 22px;
+    font-weight: bold;
+    fill: white;
+    stroke: white;
 }
 
 .attendance-table-container {

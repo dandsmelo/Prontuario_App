@@ -6,8 +6,10 @@ export const createAttendanceRequest = async (attendance: IAttendance) => {
   return response.data;
 };
 
-export const listAttendancesRequest = async () => {
-  const response = await api.get('/attendances');
+export const listAttendancesRequest = async (sortBy?: string, order?: 'asc' | 'desc') => {
+  const response = await api.get('/attendances', {
+    params: { sortBy, order },
+  });
   return response.data;
 };
 

@@ -22,9 +22,9 @@ export const useAttendance = () => {
     }
   };
 
-  const listAttendances = async () => {
+  const listAttendances = async (sortBy?: string, order?: 'asc' | 'desc') => {
     try {
-      const response = await listAttendancesRequest();
+      const response = await listAttendancesRequest(sortBy, order);
       return response;
     } catch (err) {
       const error = err as ApiError;

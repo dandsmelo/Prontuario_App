@@ -2,17 +2,20 @@ import TopBar from '../../components/TopBar/TopBar';
 import '../../assets/css/attendanceList.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiSearch } from 'react-icons/fi';
 import { useAttendance } from '../../hooks/useAttendance';
 import { IAttendance } from '../../types/Attendance';
 import moment from 'moment';
 import { usePatient } from '../../hooks/usePatient';
 import { IPatient } from '../../types/Patient';
+import { GoSortAsc } from 'react-icons/go';
+import { GoSortDesc } from 'react-icons/go';
+import Button from '../../components/Button/Button';
 
 const AttendanceList: React.FC = () => {
   const [attendances, setAttendances] = useState<IAttendance[]>([]);
   const [patients, setPatients] = useState<IPatient[]>([]);
-  const [search, setSearch] = useState('');
+  const [sortField, setSortField] = useState<string>();
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const { listAttendances } = useAttendance();
   const { getPatientById } = usePatient();
 
@@ -20,10 +23,6 @@ const AttendanceList: React.FC = () => {
 
   const handleRowClick = (patientId: string, id: string) => {
     navigate(`/attendance/${patientId}/view/${id}`);
-  };
-
-  const handleSearchPatient = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
   };
 
   const getPatientsByIds = async (ids: string[]) => {
@@ -35,32 +34,65 @@ const AttendanceList: React.FC = () => {
     return patients.find((p) => p._id === patientId)?.name ?? '-';
   };
 
+  const handleChangeSortField = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortField(e.target.value);
+  };
+
+  const searchOptions = [
+    { label: 'Data', value: 'date' },
+    { label: 'Paciente', value: 'patientName' },
+  ];
+
+  const handleSort = () => {
+    setSortOrder((currentOrder) => (currentOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  const renderOrderIcon = () => {
+    if (sortOrder === 'asc') {
+      return <GoSortAsc className="attendance-order-icon" />;
+    }
+    return <GoSortDesc className="attendance-order-icon" />;
+  };
+
   useEffect(() => {
     async function fetchAttendance() {
-      const data: IAttendance[] = await listAttendances();
+      const data: IAttendance[] = await listAttendances(sortField, sortOrder);
       setAttendances(data);
 
       const patientIds = [...new Set(data.map((attendance) => attendance.patientId))];
       await getPatientsByIds(patientIds);
     }
     fetchAttendance();
-  }, []);
+  }, [sortField, sortOrder]);
 
   return (
     <>
       <TopBar />
       <div className="attendance-list-container">
         <h1 className="attendance-list-title">Atendimentos</h1>
-        <div className="search-attendances-container">
-          <div className="search-attendances">
-            <FiSearch className="search-attendance-icon" />
-            <input
-              className="search-attendance-input"
-              placeholder="Buscar a partir do nome do paciente"
-              value={search}
-              onChange={handleSearchPatient}
-            />
+        <div className="sort-attendances-container">
+          <div className="search-attendance-container">
+            Ordenar por
+            <select
+              name={sortField}
+              onChange={handleChangeSortField}
+              className="search-attendance-select"
+            >
+              {searchOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
           </div>
+          <Button
+            type="button"
+            onClick={handleSort}
+            width="40px"
+            className="attendance-order-button"
+          >
+            {renderOrderIcon()}
+          </Button>
         </div>
         <div className="attendance-table-container">
           <table className="attendance-table">
