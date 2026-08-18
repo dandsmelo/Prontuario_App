@@ -29,7 +29,7 @@ function TopBar() {
           </div>
           <div className="page-list-item">
             <IoIosPaper className="icon" />
-            <Link to="#" className="page-link">
+            <Link to="/attendanceList" className="page-link">
               Atendimentos
             </Link>
           </div>

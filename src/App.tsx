@@ -6,6 +6,7 @@ import PatientList from './pages/patient/PatientList.tsx';
 import PatientForm from './pages/patient/PatientForm.tsx';
 import Patient from './pages/patient/Patient.tsx';
 import Attendance from './pages/attendance/Attendance.tsx';
+import AttendanceList from './pages/attendance/AttendanceList.tsx';
 
 function App() {
   return (
@@ -58,6 +59,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Attendance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attendanceList"
+          element={
+            <ProtectedRoute>
+              <AttendanceList />
             </ProtectedRoute>
           }
         />
