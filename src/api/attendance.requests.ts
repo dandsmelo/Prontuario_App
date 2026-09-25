@@ -22,3 +22,10 @@ export const listAttendancesByPatientIdRequest = async (patientId: string) => {
   const response = await api.get(`/attendances/patient/${patientId}`);
   return response.data;
 };
+
+export const generateAttendanceReportRequest = async (id: string) => {
+  const response = await api.get(`/attendances/${id}/report`, {
+    responseType: 'blob',
+  });
+  return response.data;
+};
