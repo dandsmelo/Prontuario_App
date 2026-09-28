@@ -3,6 +3,7 @@ import {
   listAttendancesRequest,
   getAttendanceByIdRequest,
   listAttendancesByPatientIdRequest,
+  generateAttendanceReportRequest,
 } from '../api/attendance.requests';
 import { useAlert } from '../components/Alert';
 import { ApiError } from '../types/ApiError';
@@ -59,10 +60,35 @@ export const useAttendance = () => {
     }
   };
 
+  const generateAttendanceReport = async (id: string) => {
+    try {
+      const blob = await generateAttendanceReportRequest(id);
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `atendimento-${id}.pdf`;
+
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+
+      return true;
+    } catch (err) {
+      const error = err as ApiError;
+      showError(error.customMessage);
+      return false;
+    }
+  };
+
   return {
     createAttendance,
     listAttendances,
     getAttendanceById,
     listAttendancesByPatientId,
+    generateAttendanceReport,
   };
 };
